@@ -24,7 +24,12 @@ class LocalIcons{
   static String heart_on = "${_path_extra}/heart_on.svg";
   static String heart_off = "${_path_extra}/heart_off.svg";
 
+  static String cart = "${_path_extra}/cart.svg";
 
+  static String cpu = "${_path_extra}/cpu.svg";
+  static String photo = "${_path_extra}/photo.svg";
+  static String ram = "${_path_extra}/ram.svg";
+  static String sd = "${_path_extra}/sd.svg";
 
 
 }
