@@ -1,8 +1,19 @@
-import 'dart:async';
+/*
+ * *
+ *  * Created by Kosyachenko Roman aka Roma on 22.08.2022, 22:08
+ *  * Copyright (c) 2022 . All rights reserved.
+ *  * Last modified 22.08.2022, 21:45
+ *
+ */
 
+import 'dart:async';
 
 import 'package:easy_localization/easy_localization.dart';
 import 'package:ecocotask/core/themes/base_theme.dart';
+import 'package:ecocotask/presentation/bloc/cart/bloc_cart.dart';
+import 'package:ecocotask/presentation/bloc/home/bloc_home.dart';
+import 'package:ecocotask/presentation/bloc/nav_bottom/cubit_bottom_nav.dart';
+import 'package:ecocotask/presentation/pages/base/base.dart';
 import 'package:ecocotask/presentation/pages/home/home.dart';
 import 'package:ecocotask/presentation/pages/splash/splash.dart';
 import 'package:flutter/foundation.dart';
@@ -17,16 +28,17 @@ Future<void> main() async {
   await EasyLocalization.ensureInitialized();
   await di.init();
 
-    SystemChrome.setPreferredOrientations(
-        [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown])
-        .then((_) => BlocOverrides.runZoned(
-          () => runApp(EasyLocalization(
-          supportedLocales: [Locale('en'), Locale('ru')],
-          path: 'assets/translations', // <-- change the path of the translation files
-          fallbackLocale: Locale('en'),
-          child: const MyApp())),
-      blocObserver: AppBlocObserver(),
-    ));
+  SystemChrome.setPreferredOrientations(
+          [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown])
+      .then((_) => BlocOverrides.runZoned(
+            () => runApp(EasyLocalization(
+                supportedLocales: [Locale('en'), Locale('ru')],
+                path: 'assets/translations',
+                // <-- change the path of the translation files
+                fallbackLocale: Locale('en'),
+                child: const MyApp())),
+            blocObserver: AppBlocObserver(),
+          ));
 }
 
 class AppBlocObserver extends BlocObserver {
@@ -48,28 +60,24 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return
-      // MultiBlocProvider(
-      //   providers: [
-      //     // BlocProvider<AuthCubit>(create: (context) => di.sl<AuthCubit>()),
-      //     // BlocProvider<BlocUser>(create: (context) => di.sl<BlocUser>()),
-      //     // BlocProvider<BlocLevel>(create: (context) => di.sl<BlocLevel>()),
-      //   ],
-      //   child: MultiRepositoryProvider(
-      //     providers: [
-      //     //  RepositoryProvider(create: (context) => di.sl<UserRepository>())
-      //     ],
-      //     child:
-          ScreenUtilInit(
-              designSize: Size(414, 896),
-              builder: (BuildContext context, Widget? child) => MaterialApp(
-                  debugShowCheckedModeBanner: false,
-                  localizationsDelegates: context.localizationDelegates,
-                  supportedLocales: context.supportedLocales,
-                  locale: context.locale,
-                  theme: themeData(context),
-                  title: 'Математика с Дино',
-                  home: Home()));
-        //));
+    return MultiBlocProvider(
+        providers: [
+          BlocProvider<CubitBottomNav>(
+              create: (context) => di.sl<CubitBottomNav>()),
+          BlocProvider<BlocHome>(
+              create: (context) => di.sl<BlocHome>()),
+          BlocProvider<BlocCart>(
+              create: (context) => di.sl<BlocCart>()),
+        ],
+        child: ScreenUtilInit(
+            designSize: Size(414, 896),
+            builder: (BuildContext context, Widget? child) => MaterialApp(
+                debugShowCheckedModeBanner: false,
+                localizationsDelegates: context.localizationDelegates,
+                supportedLocales: context.supportedLocales,
+                locale: context.locale,
+                theme: themeData(context),
+                title: 'Ecо excirse',
+                home: Splash())));
   }
 }

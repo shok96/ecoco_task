@@ -1,4 +1,14 @@
+/*
+ * *
+ *  * Created by Kosyachenko Roman aka Roma on 22.08.2022, 22:08
+ *  * Copyright (c) 2022 . All rights reserved.
+ *  * Last modified 22.08.2022, 22:01
+ *
+ */
+
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:ecocotask/core/common/colors.dart';
+import 'package:ecocotask/core/common/images.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -8,10 +18,13 @@ class DetailImages extends StatelessWidget {
 
   ValueNotifier<int> page = ValueNotifier(0);
 
-  var mock = [
-  "https://avatars.mds.yandex.net/get-mpic/5235334/img_id5575010630545284324.png/orig",
-  "https://www.manualspdf.ru/thumbs/products/l/1260237-samsung-galaxy-note-20-ultra.jpg"
-  ];
+  List<String> pData;
+
+  DetailImages({required this.pData}){
+    if(pData.isEmpty){
+      pData.add(LocalImages.no_photo);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -21,8 +34,8 @@ class DetailImages extends StatelessWidget {
           child: PageView.builder(
             onPageChanged: (value) => page.value = value,
             controller: pageController,
-            itemBuilder: (context, index) => _Items(item: mock[index]),
-            itemCount: mock.length,
+            itemBuilder: (context, index) => _Items(item: pData[index]),
+            itemCount: pData.length,
           ),
         ),
         SizedBox(height: 8.h,),
@@ -31,7 +44,7 @@ class DetailImages extends StatelessWidget {
           builder: (context, data, _) {
             return Row(
               mainAxisSize: MainAxisSize.min,
-              children: List.generate(mock.length, (index) => _Dots(isActive: index == data,))
+              children: List.generate(pData.length, (index) => _Dots(isActive: index == data,))
             );
           }
         ),
@@ -65,9 +78,12 @@ class _Items extends StatelessWidget {
           padding: EdgeInsets.all(16.r),
           child: Container(
             decoration: BoxDecoration(
-              image: DecorationImage(
-                image: NetworkImage(item),
+              image: item.startsWith("http") ? DecorationImage(
+                image: CachedNetworkImageProvider(item),
                 fit: BoxFit.fill
+              ) : DecorationImage(
+                  image: AssetImage(item),
+                  fit: BoxFit.fill
               )
             ),
           ),

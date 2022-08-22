@@ -1,13 +1,44 @@
+/*
+ * *
+ *  * Created by Kosyachenko Roman aka Roma on 22.08.2022, 22:08
+ *  * Copyright (c) 2022 . All rights reserved.
+ *  * Last modified 22.08.2022, 21:01
+ *
+ */
+
 import 'package:ecocotask/core/common/colors.dart';
 import 'package:ecocotask/core/common/icons.dart';
+import 'package:ecocotask/core/common/utils.dart';
+import 'package:ecocotask/core/themes/base_theme.dart';
+import 'package:ecocotask/data/models/MDetail.dart';
+import 'package:ecocotask/presentation/bloc/cart/bloc_cart.dart';
 import 'package:ecocotask/presentation/pages/detail/widgets/color_switch.dart';
 import 'package:ecocotask/presentation/pages/detail/widgets/hard_switch.dart';
 import 'package:ecocotask/presentation/widgets/button.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-class DetailInfo extends StatelessWidget {
+class DetailInfo extends StatefulWidget {
+  MDetail mDetail;
+
+  DetailInfo({required this.mDetail});
+
+  @override
+  State<DetailInfo> createState() => _DetailInfoState();
+}
+
+class _DetailInfoState extends State<DetailInfo> {
+
+  bool isFavorite = false;
+
+  @override
+  void initState() {
+    isFavorite = widget.mDetail.isFavorites;
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -18,11 +49,15 @@ class DetailInfo extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text("Galaxy Note 20 Ultra"),
+              Text(widget.mDetail.title, style: mark500(context, size: 24),),
               Button(
-                action: () => Navigator.of(context).pop(),
+                action: (){
+                  setState(() {
+                    isFavorite = !isFavorite;
+                  });
+                },
                 color: ConstColors.bluewDark,
-                icon: Icons.favorite_border,
+                icon: !isFavorite ? Icons.favorite_border : Icons.favorite,
                 padding: EdgeInsets.all(10.r),
                 radius: 14,
               ),
@@ -32,7 +67,7 @@ class DetailInfo extends StatelessWidget {
             children: List.generate(
                 5,
                 (index) => _Star(
-                      isActive: index < 4,
+                      isActive: index < widget.mDetail.rating,
                     )),
           ),
           SizedBox(
@@ -44,22 +79,22 @@ class DetailInfo extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                _Hard(text: "Exynos 990", icon: LocalIcons.cpu),
-                _Hard(text: "108 + 12 mp", icon: LocalIcons.photo),
-                _Hard(text: "8 GB", icon: LocalIcons.ram),
-                _Hard(text: "256 GB", icon: LocalIcons.sd),
+                _Hard(text: widget.mDetail.CPU, icon: LocalIcons.cpu),
+                _Hard(text: widget.mDetail.camera, icon: LocalIcons.photo),
+                _Hard(text: widget.mDetail.ssd, icon: LocalIcons.ram),
+                _Hard(text: widget.mDetail.sd, icon: LocalIcons.sd),
               ],
             ),
           ),
-          Text("Select color and capacity"),
+          Text("Select color and capacity", style: mark500(context, size: 16),),
           SizedBox(
             height: 15.h,
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              ColorSwitch(),
-              HardSwitch(),
+              ColorSwitch(colors: widget.mDetail.getColors()),
+              HardSwitch(volumes: widget.mDetail.capacity,),
             ],
           ),
           SizedBox(height: 27.h,),
@@ -67,7 +102,10 @@ class DetailInfo extends StatelessWidget {
             radius: 10.r,
             color: ConstColors.orange,
             padding: EdgeInsets.symmetric(vertical: 14.h),
-            action: () {},
+            action: () {
+              Utils.toast(context, "${widget.mDetail.title} успешно добавлен");
+              context.read<BlocCart>().add(BlocCartEvent.addItem(widget.mDetail));
+            },
             widget: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -75,19 +113,15 @@ class DetailInfo extends StatelessWidget {
                     child: Text(
                   "Add to Cart",
                   textAlign: TextAlign.center,
-                  style: Theme.of(context)
-                      .textTheme
-                      .bodyText2
-                      ?.copyWith(color: ConstColors.white, fontSize: 20.sp),
+                  style: mark700(context, size: 20)
+                      ?.copyWith(color: ConstColors.white),
                 )),
                 Expanded(
                     child: Text(
-                  "\$1.500.00",
+                  "\$${widget.mDetail.price}",
                   textAlign: TextAlign.center,
-                  style: Theme.of(context)
-                      .textTheme
-                      .bodyText2
-                      ?.copyWith(color: ConstColors.white, fontSize: 20.sp),
+                  style: mark700(context, size: 20)
+                      ?.copyWith(color: ConstColors.white),
                 )),
               ],
             ),
@@ -115,10 +149,8 @@ class _Hard extends StatelessWidget {
         ),
         Text(
           text,
-          style: Theme.of(context)
-              .textTheme
-              .bodyText2
-              ?.copyWith(color: Colors.grey, fontSize: 11.sp),
+          style: mark400(context, size: 11)
+              ?.copyWith(color: Colors.grey),
         )
       ],
     );
@@ -153,8 +185,8 @@ class _Tabs extends StatelessWidget {
       children: [
         Text(
           text,
-          style: Theme.of(context).textTheme.bodyText2?.copyWith(
-              color: isActive ? ConstColors.orange : Colors.grey.shade300),
+          style: isActive ? mark700(context, size: 20)?.copyWith(
+              color: ConstColors.bluewDark) : mark400(context, size: 20)?.copyWith(color: Colors.grey.shade400),
         ),
         SizedBox(
           height: 5.h,

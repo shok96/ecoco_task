@@ -1,7 +1,16 @@
+/*
+ * *
+ *  * Created by Kosyachenko Roman aka Roma on 22.08.2022, 22:08
+ *  * Copyright (c) 2022 . All rights reserved.
+ *  * Last modified 22.08.2022, 19:33
+ *
+ */
+
 import 'dart:ffi';
 
 import 'package:ecocotask/core/common/colors.dart';
 import 'package:ecocotask/core/common/icons.dart';
+import 'package:ecocotask/core/themes/base_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -61,7 +70,7 @@ class _Items extends StatelessWidget{
             ),
           ),
           SizedBox(height: 7.h,),
-          Text(title, style: Theme.of(context).textTheme.bodyText2?.copyWith(fontSize: 12.sp, color: isActive ? ConstColors.orange : ConstColors.bluewDark))
+          Text(title, style: mark500(context, size: 12)?.copyWith(color: isActive ? ConstColors.orange : ConstColors.bluewDark))
         ],
       ),
     );

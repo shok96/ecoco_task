@@ -1,5 +1,15 @@
+/*
+ * *
+ *  * Created by Kosyachenko Roman aka Roma on 22.08.2022, 22:08
+ *  * Copyright (c) 2022 . All rights reserved.
+ *  * Last modified 22.08.2022, 20:38
+ *
+ */
+
 import 'package:ecocotask/core/common/colors.dart';
 import 'package:ecocotask/core/common/icons.dart';
+import 'package:ecocotask/core/common/utils.dart';
+import 'package:ecocotask/core/themes/base_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -11,7 +21,7 @@ class Search extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 32.w, vertical: 12.h),
+      padding: EdgeInsets.symmetric(horizontal: 32.w, vertical: 24.h),
       child: Row(
         children: [
           SvgPicture.asset(LocalIcons.search),
@@ -23,12 +33,7 @@ class Search extends StatelessWidget{
                 contentPadding: EdgeInsets.only(left: 10.w),
                 border: InputBorder.none,
                 hintText: "Search",
-                hintStyle: Theme.of(context).textTheme.bodyText2?.copyWith(
-                  color: const Color(0xff222222).withAlpha(76),
-                  fontSize: 12,
-                  fontWeight: FontWeight.w300,
-                  fontStyle: FontStyle.normal,
-                ),
+                hintStyle: mark400(context, size: 12)?.copyWith(color: HexColor.fromHex("#003580").withOpacity(0.5)),
               ),
             ),
           ),

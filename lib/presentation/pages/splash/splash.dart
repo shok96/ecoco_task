@@ -1,22 +1,36 @@
 /*
  * *
- *  * Created by Kosyachenko Roman aka Roma on 07.08.2022, 22:50
+ *  * Created by Kosyachenko Roman aka Roma on 22.08.2022, 22:08
  *  * Copyright (c) 2022 . All rights reserved.
- *  * Last modified 06.08.2022, 20:24
+ *  * Last modified 22.08.2022, 20:59
  *
  */
 
 import 'dart:ffi';
 
 import 'package:ecocotask/core/common/colors.dart';
+import 'package:ecocotask/core/common/utils.dart';
+import 'package:ecocotask/core/themes/base_theme.dart';
+import 'package:ecocotask/presentation/pages/base/base.dart';
 import 'package:ecocotask/presentation/widgets/measure_size.dart';
 import 'package:flutter/material.dart';
 import "package:ecocotask/di.dart" as di;
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class Splash extends StatelessWidget{
+class Splash extends StatefulWidget{
 
+  @override
+  State<Splash> createState() => _SplashState();
+}
+
+class _SplashState extends State<Splash> {
   ValueNotifier<double> sizeLogo = ValueNotifier(0);
+
+  @override
+  void initState() {
+    super.initState();
+    Future.delayed(Duration(seconds: 2), () => Utils.routerScreenDeleteStack(context, Base()));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -52,10 +66,8 @@ class Splash extends StatelessWidget{
                           child: Text(
                             """Ecommerce 
 Concept """,
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyText2
-                                ?.copyWith(color: ConstColors.white, fontSize: 20.sp),
+                            style: mark800(context, size: 30)
+                                ?.copyWith(color: ConstColors.white),
                           ),
                         )
                       ],

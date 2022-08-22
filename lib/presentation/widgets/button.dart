@@ -1,3 +1,11 @@
+/*
+ * *
+ *  * Created by Kosyachenko Roman aka Roma on 22.08.2022, 22:08
+ *  * Copyright (c) 2022 . All rights reserved.
+ *  * Last modified 21.08.2022, 23:11
+ *
+ */
+
 import 'package:ecocotask/core/common/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -12,6 +20,8 @@ class Button extends StatelessWidget {
   TextStyle? style;
   VoidCallback action;
   Widget? widget;
+  bool isFullWidth;
+  TextAlign? textAlign;
 
   Button(
       {required this.color,
@@ -23,7 +33,7 @@ class Button extends StatelessWidget {
       required this.action,
       this.svg,
       this.style,
-      this.widget});
+      this.widget, this.isFullWidth = false, this.textAlign});
 
   Widget child(BuildContext context) {
     if (icon != null) {
@@ -34,6 +44,7 @@ class Button extends StatelessWidget {
     } else if (text != null) {
       return Text(
         text!,
+        textAlign: textAlign,
         style: style ??
             Theme.of(context).textTheme.bodyText2?.copyWith(color: text_color),
       );
@@ -51,6 +62,7 @@ class Button extends StatelessWidget {
     return GestureDetector(
       onTap: action,
       child: Container(
+        width: isFullWidth ? double.infinity : null,
         decoration: BoxDecoration(
             color: color, borderRadius: BorderRadius.circular(radius.r)),
         child: Padding(

@@ -1,4 +1,13 @@
+/*
+ * *
+ *  * Created by Kosyachenko Roman aka Roma on 22.08.2022, 22:08
+ *  * Copyright (c) 2022 . All rights reserved.
+ *  * Last modified 22.08.2022, 20:53
+ *
+ */
+
 import 'package:ecocotask/core/common/colors.dart';
+import 'package:ecocotask/core/themes/base_theme.dart';
 import 'package:ecocotask/presentation/widgets/button.dart';
 import 'package:ecocotask/presentation/widgets/dropdown.dart';
 import 'package:flutter/material.dart';
@@ -27,13 +36,14 @@ class BottomSheetFilterContent extends StatelessWidget {
                   padding: EdgeInsets.all(8.r),
                   radius: 10,
                 ),
-                Text("Filter options"),
+                Text("Filter options", style: mark500(context, size: 18),),
                 Button(
                   action: () => Navigator.of(context).pop(),
                   color: ConstColors.orange,
+                  style: mark500(context, size: 18)?.copyWith(color: ConstColors.white),
                   text: "Done",
                   padding:
-                      EdgeInsets.symmetric(horizontal: 20.w, vertical: 8.h),
+                      EdgeInsets.symmetric(horizontal: 19.w, vertical: 7.h),
                   radius: 10,
                 ),
               ],

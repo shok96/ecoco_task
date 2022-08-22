@@ -1,3 +1,11 @@
+/*
+ * *
+ *  * Created by Kosyachenko Roman aka Roma on 22.08.2022, 22:08
+ *  * Copyright (c) 2022 . All rights reserved.
+ *  * Last modified 22.08.2022, 19:02
+ *
+ */
+
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
 part of 'MTaskResult.dart';
