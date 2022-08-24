@@ -6,7 +6,6 @@
  *
  */
 
-import 'package:easy_localization/easy_localization.dart';
 import 'package:ecocotask/data/models/MCart.dart';
 import 'package:collection/collection.dart';
 import 'package:ecocotask/data/models/MDetail.dart';

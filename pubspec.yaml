@@ -40,7 +40,6 @@ dependencies:
   cached_network_image: ^3.2.1
   connectivity_plus: ^2.3.6
   form_field_validator: ^1.1.0
-  easy_localization: ^3.0.1
   url_launcher: ^6.1.5
 
 
@@ -79,7 +78,6 @@ flutter:
   assets:
     - assets/dev/
     - assets/extra/
-    - assets/translations/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

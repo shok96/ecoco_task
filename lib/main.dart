@@ -8,7 +8,6 @@
 
 import 'dart:async';
 
-import 'package:easy_localization/easy_localization.dart';
 import 'package:ecocotask/core/themes/base_theme.dart';
 import 'package:ecocotask/presentation/bloc/cart/bloc_cart.dart';
 import 'package:ecocotask/presentation/bloc/home/bloc_home.dart';
@@ -25,18 +24,12 @@ import 'di.dart' as di;
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await EasyLocalization.ensureInitialized();
   await di.init();
 
   SystemChrome.setPreferredOrientations(
           [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown])
       .then((_) => BlocOverrides.runZoned(
-            () => runApp(EasyLocalization(
-                supportedLocales: [Locale('en'), Locale('ru')],
-                path: 'assets/translations',
-                // <-- change the path of the translation files
-                fallbackLocale: Locale('en'),
-                child: const MyApp())),
+            () => runApp(const MyApp()),
             blocObserver: AppBlocObserver(),
           ));
 }
@@ -73,9 +66,6 @@ class MyApp extends StatelessWidget {
             designSize: Size(414, 896),
             builder: (BuildContext context, Widget? child) => MaterialApp(
                 debugShowCheckedModeBanner: false,
-                localizationsDelegates: context.localizationDelegates,
-                supportedLocales: context.supportedLocales,
-                locale: context.locale,
                 theme: themeData(context),
                 title: 'Ecо excirse',
                 home: Splash())));
